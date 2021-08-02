@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/karnurmax/saletastic-tg-bot#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "express": "^4.17.1",
+    "graphql": "^15.5.1",
+    "graphql-request": "^3.5.0",
     "mongodb": "^4.0.1",
     "mongoose": "^5.13.5",
     "node-telegram-bot-api": "^0.54.0",
