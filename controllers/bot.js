@@ -10,15 +10,9 @@ const app = express();
 var lastState;
 
 
-bot.onText(/main/, (msg, match) => {
-	const chatId = msg.chat.id
-	bot.sendMessage(chatId, `Hello! Are you here to receive a discount for Banarasi Outfits ?\n1. Yes\n2. No`)
-})
-
-
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
-    "reply_markup": 
+    "reply_markup": // создаем кнопки
         JSON.stringify({
           keyboard: [
               [{
@@ -38,15 +32,15 @@ bot.onText(/\/start/, (msg) => {
               }],
           ],
           resize_keyboard: true,
-          one_time_keyboard: true
+          one_time_keyboard: true //кнопка пропадает после нажатия
         })
       
   });  
 });
 
-
-
+// ответы на кнопки
 bot.on('message', (msg) => {
+  // кнопки back
   var backMenu = "Back to menu"
   if (msg.text.indexOf(backMenu) === 0) {
     bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
@@ -70,11 +64,36 @@ bot.on('message', (msg) => {
                 }],
             ],
             resize_keyboard: true,
-            one_time_keyboard: true
+            one_time_keyboard: true 
           })
         
     });
   }
+  var backCatalog = "Back to catalog";
+  if (msg.text.indexOf(backCatalog) === 0){
+    bot.sendMessage(msg.chat.id, "Select Collection:", {
+      "reply_markup":
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: 'First Variant'
+              }],
+              [{
+                text: 'Second Variant'
+              }],
+              [{
+                text: 'Third Variant'
+              }],
+              [{
+                text: 'Back to menu'
+              }]
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true
+        })
+    });
+  }
+  // кнопки основного меню
   var catalog = "Catalog";
   if (msg.text.indexOf(catalog) === 0) {
       bot.sendMessage(msg.chat.id, "Select Collection:", {
@@ -210,30 +229,6 @@ bot.on('message', (msg) => {
             one_time_keyboard: true
           })
     })
-  }
-  var backCatalog = "Back to catalog";
-  if (msg.text.indexOf(backCatalog) === 0){
-    bot.sendMessage(msg.chat.id, "Select Collection:", {
-      "reply_markup":
-        JSON.stringify({
-          keyboard: [
-              [{
-                text: 'First Variant'
-              }],
-              [{
-                text: 'Second Variant'
-              }],
-              [{
-                text: 'Third Variant'
-              }],
-              [{
-                text: 'Back to menu'
-              }]
-          ],
-          resize_keyboard: true,
-          one_time_keyboard: true
-        })
-    });
   }
 });
 
