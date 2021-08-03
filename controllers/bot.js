@@ -8,48 +8,78 @@ const {
 const bot = new TelegramBot(token, { polling: true })
 const app = express();
 
-async function handleMessage(req, res) {
-    res.status(200).send('');
-    const accountSid = req.body.AccountSid;
-    const fromNumber = req.body.From;
-    const msg = req.body.Body;
-    const profileName = req.body.ProfileName;
-    console.log('wh controller', fromNumber, msg, req.body);
-}
 
-function createNewDialog() {
-    UserState
-      .create({
-        phone: fromNumber,
-        last: 'demoMain',
-      })
-      .then(() => {
-        bot.sendMessage(chatId, `Hello! Are you here to receive a discount for Banarasi Outfits ?\n1. Yes\n2. No`)
-      }).catch(errorHandler);
-  }
 
 bot.onText(/main/, (msg, match) => {
 	const chatId = msg.chat.id
 	bot.sendMessage(chatId, `Hello! Are you here to receive a discount for Banarasi Outfits ?\n1. Yes\n2. No`)
 })
 
-function sendMainMenu() {
-    bot.sendMessage(chatId, `Hello! Are you here to receive a discount for Banarasi Outfits ?\n1. Yes\n2. No`)
-}
+bot.onText(/\/start/, (msg) => {
 
-function sendCatalog() {
-  shopifyApi.retireveCollections().then((
-    response,
-  ) => {
-    const collections = `Select Collection:\n${
-      response.collections.edges
-        .map((val, idx) => `${idx + 1}. ${val.node.title}`)
-        .join('\n')}\n${backToMenu}\n\n\n${typeRecomendation}`;
-        bot.sendMessage(chatId, collections) 
+  bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
+  "reply_markup": {
+      "keyboard": [["Catalog"], ["Support"], ["Order Status"], ["Abandoned Cart"], ["Loyalty Program"]]
       }
-  ).catch(errorHandler)
-}
+  });
+  
+  });
 
-function resendCommand() {
-  bot.sendMessage(chatId, 'Please, send right command\nOR type 0 to redirect to main menu')
+bot.on('message', (msg) => {
+var catalog = "Catalog";
+if (msg.text.indexOf(catalog) === 0) {
+    bot.sendMessage(msg.chat.id, "Select Collection:");
 }
+var support = "Support";
+if (msg.text.indexOf(support) === 0) {
+    bot.sendMessage(msg.chat.id, "Don't write here anymore , Bye");
+}
+var status = "Order Status";
+if (msg.text.indexOf(status) === 0) {
+    bot.sendMessage(msg.chat.id, "Your ordes is ready!");
+}
+var cart = "Abandoned Cart";
+if (msg.text.indexOf(cart) === 0){
+  bot.sendMessage(msg.chat.id, "Your cart is:")
+}
+var program = "Loyalty Program";
+if (msg.text.indexOf(program) === 0){
+  bot.sendMessage(msg.chat.id, "Your discount code: https//:google.com")
+}
+});
+
+
+let userLast;
+bot.on("callback_query", (callbackQuery) => {
+  const action = callbackQuery.data;
+  const msg = callbackQuery.message;
+  const opts = {
+    chat_id: msg.chat.id,
+    message_id: msg.message_id,
+  }
+  let text
+  userLast = 'main'
+  if (action === '1') {
+    text = "Here is Catalog"
+    userLast = "catalog"
+  }
+  else if (action ==='2') {
+    text = "Here is Support"
+    userLast = "support"
+  }
+  else if (action ==='3') {
+    text = "Here is Support"
+    userLast = "tracking"
+  }
+  else if (action ==='4') {
+    text = "Here is Support"
+    userLast = "Here is your promocode: Please click this link to proceed or type *5* to return"
+  }
+  else if (action ==='5') {
+    text = "Would you like to leave us a review for 5 points?"
+    userLast = 'marketing'
+  }
+  bot.sendMessage(opts)
+});
+
+
