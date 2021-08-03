@@ -7,13 +7,14 @@ const {
 } = require('../providers/shopifyApi');
 const bot = new TelegramBot(token, { polling: true })
 const app = express();
-
+var lastState;
 
 
 bot.onText(/main/, (msg, match) => {
 	const chatId = msg.chat.id
 	bot.sendMessage(chatId, `Hello! Are you here to receive a discount for Banarasi Outfits ?\n1. Yes\n2. No`)
 })
+
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
@@ -27,7 +28,7 @@ bot.onText(/\/start/, (msg) => {
                 text: 'Support'
               }],
               [{
-                text: 'Status'
+                text: 'Order Status'
               }],
               [{
                 text: 'Abandoned Cartr'
@@ -43,7 +44,37 @@ bot.onText(/\/start/, (msg) => {
   });  
 });
 
+
+
 bot.on('message', (msg) => {
+  var backMenu = "Back to menu"
+  if (msg.text.indexOf(backMenu) === 0) {
+    bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Catalog'
+                }],
+                [{
+                  text: 'Support'
+                }],
+                [{
+                  text: 'Order Status'
+                }],
+                [{
+                  text: 'Abandoned Cartr'
+                }],
+                [{
+                  text: 'Loyalty Program'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    });
+  }
   var catalog = "Catalog";
   if (msg.text.indexOf(catalog) === 0) {
       bot.sendMessage(msg.chat.id, "Select Collection:", {
@@ -60,7 +91,7 @@ bot.on('message', (msg) => {
                   text: 'Third Variant'
                 }],
                 [{
-                  text: 'Back'
+                  text: 'Back to menu'
                 }]
             ],
             resize_keyboard: true,
@@ -75,7 +106,7 @@ bot.on('message', (msg) => {
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'Back'
+                  text: 'Back to menu'
                 }]
             ],
             resize_keyboard: true,
@@ -91,7 +122,7 @@ bot.on('message', (msg) => {
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'Back'
+                  text: 'Back to menu'
                 }],
             ],
             resize_keyboard: true,
@@ -107,7 +138,7 @@ bot.on('message', (msg) => {
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'Back'
+                  text: 'Back to menu'
                 }],
             ],
             resize_keyboard: true,
@@ -134,13 +165,13 @@ bot.on('message', (msg) => {
   }
   // Variants
   var variant1 = "First Variant";
-  if (msg.text.indexOf(program) === 0){
+  if (msg.text.indexOf(variant1) === 0){
     bot.sendMessage(msg.chat.id, "xs, s, XL", {
       "reply_markup": 
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'Back'
+                  text: 'Back to catalog'
                 }],
             ],
             resize_keyboard: true,
@@ -150,13 +181,13 @@ bot.on('message', (msg) => {
     })
   }
   var variant2 = "Second Variant";
-  if (msg.text.indexOf(program) === 0){
+  if (msg.text.indexOf(variant2) === 0){
     bot.sendMessage(msg.chat.id, "XXL, XXXXXXXL", {
       "reply_markup": 
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'Back'
+                  text: 'Back to catalog'
                 }],
             ],
             resize_keyboard: true,
@@ -166,20 +197,43 @@ bot.on('message', (msg) => {
     })
   }
   var variant3 = "Third Variant";
-  if (msg.text.indexOf(program) === 0){
+  if (msg.text.indexOf(variant3) === 0){
     bot.sendMessage(msg.chat.id, "Your size is too big for this shirt", {
       "reply_markup": 
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'Back'
+                  text: 'Back to catalog'
                 }],
             ],
             resize_keyboard: true,
             one_time_keyboard: true
           })
-        
     })
+  }
+  var backCatalog = "Back to catalog";
+  if (msg.text.indexOf(backCatalog) === 0){
+    bot.sendMessage(msg.chat.id, "Select Collection:", {
+      "reply_markup":
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: 'First Variant'
+              }],
+              [{
+                text: 'Second Variant'
+              }],
+              [{
+                text: 'Third Variant'
+              }],
+              [{
+                text: 'Back to menu'
+              }]
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true
+        })
+    });
   }
 });
 
