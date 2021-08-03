@@ -16,70 +16,174 @@ bot.onText(/main/, (msg, match) => {
 })
 
 bot.onText(/\/start/, (msg) => {
-
   bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
-  "reply_markup": {
-      "keyboard": [["Catalog"], ["Support"], ["Order Status"], ["Abandoned Cart"], ["Loyalty Program"]]
-      }
-  });
-  
-  });
+    "reply_markup": 
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: 'Catalog'
+              }],
+              [{
+                text: 'Support'
+              }],
+              [{
+                text: 'Status'
+              }],
+              [{
+                text: 'Abandoned Cartr'
+              }],
+              [{
+                text: 'Loyalty Program'
+              }],
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true
+        })
+      
+  });  
+});
 
 bot.on('message', (msg) => {
-var catalog = "Catalog";
-if (msg.text.indexOf(catalog) === 0) {
-    bot.sendMessage(msg.chat.id, "Select Collection:");
-}
-var support = "Support";
-if (msg.text.indexOf(support) === 0) {
-    bot.sendMessage(msg.chat.id, "Don't write here anymore , Bye");
-}
-var status = "Order Status";
-if (msg.text.indexOf(status) === 0) {
-    bot.sendMessage(msg.chat.id, "Your ordes is ready!");
-}
-var cart = "Abandoned Cart";
-if (msg.text.indexOf(cart) === 0){
-  bot.sendMessage(msg.chat.id, "Your cart is:")
-}
-var program = "Loyalty Program";
-if (msg.text.indexOf(program) === 0){
-  bot.sendMessage(msg.chat.id, "Your discount code: https//:google.com")
-}
+  var catalog = "Catalog";
+  if (msg.text.indexOf(catalog) === 0) {
+      bot.sendMessage(msg.chat.id, "Select Collection:", {
+        "reply_markup":
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'First Variant'
+                }],
+                [{
+                  text: 'Second Variant'
+                }],
+                [{
+                  text: 'Third Variant'
+                }],
+                [{
+                  text: 'Back'
+                }]
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+      });
+  }
+  var support = "Support";
+  if (msg.text.indexOf(support) === 0) {
+    bot.sendMessage(msg.chat.id, "Don't write here anymore , Bye", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }]
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    });
+  }
+  var status = "Order Status";
+  if (msg.text.indexOf(status) === 0) {
+    bot.sendMessage(msg.chat.id, "Your ordes is ready!", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    });
+  }
+  var cart = "Abandoned Cart";
+  if (msg.text.indexOf(cart) === 0){
+    bot.sendMessage(msg.chat.id, "Your cart is:", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    })
+  }
+  var program = "Loyalty Program";
+  if (msg.text.indexOf(program) === 0){
+    bot.sendMessage(msg.chat.id, "Your discount code: https//:google.com", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    })
+  }
+  // Variants
+  var variant1 = "First Variant";
+  if (msg.text.indexOf(program) === 0){
+    bot.sendMessage(msg.chat.id, "xs, s, XL", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    })
+  }
+  var variant2 = "Second Variant";
+  if (msg.text.indexOf(program) === 0){
+    bot.sendMessage(msg.chat.id, "XXL, XXXXXXXL", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    })
+  }
+  var variant3 = "Third Variant";
+  if (msg.text.indexOf(program) === 0){
+    bot.sendMessage(msg.chat.id, "Your size is too big for this shirt", {
+      "reply_markup": 
+          JSON.stringify({
+            keyboard: [
+                [{
+                  text: 'Back'
+                }],
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true
+          })
+        
+    })
+  }
 });
 
 
-let userLast;
-bot.on("callback_query", (callbackQuery) => {
-  const action = callbackQuery.data;
-  const msg = callbackQuery.message;
-  const opts = {
-    chat_id: msg.chat.id,
-    message_id: msg.message_id,
-  }
-  let text
-  userLast = 'main'
-  if (action === '1') {
-    text = "Here is Catalog"
-    userLast = "catalog"
-  }
-  else if (action ==='2') {
-    text = "Here is Support"
-    userLast = "support"
-  }
-  else if (action ==='3') {
-    text = "Here is Support"
-    userLast = "tracking"
-  }
-  else if (action ==='4') {
-    text = "Here is Support"
-    userLast = "Here is your promocode: Please click this link to proceed or type *5* to return"
-  }
-  else if (action ==='5') {
-    text = "Would you like to leave us a review for 5 points?"
-    userLast = 'marketing'
-  }
-  bot.sendMessage(opts)
-});
+
 
 
