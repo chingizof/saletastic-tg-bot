@@ -1,16 +1,26 @@
 const TelegramBot = require('node-telegram-bot-api')
 const token = '1903938146:AAG_ClwVuiXRYCG0s5MEVKTjWDmfuJwNSmw'
 const express = require('express')
-const UserState = require('../db/UserState');
 const {
   ShopifyApi,
 } = require('../providers/shopifyApi');
+const UserData = require('../db/models/UserData');
 const bot = new TelegramBot(token, { polling: true })
 const app = express();
-var lastState;
+const mongoose = require('mongoose');
 
+
+const mongoDB = 'mongodb+srv://nurlan:qweQWE123@cluster0.ikiuf.mongodb.net/tgdb?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 bot.onText(/\/start/, (msg) => {
+  UserData
+    .create({
+      chatId: msg.chat.id,
+    })
   bot.sendMessage(msg.chat.id, "<a href='neprivet.ru/'> Hello!</a> What do you want? ^^", {
     parse_mode: "html",
     "reply_markup": // создаем кнопки
