@@ -87,7 +87,10 @@ bot.on('message', (msg) => {
   }
   var support = "🆘 Support";
   if (msg.text.indexOf(support) === 0) {
-    bot.sendMessage(msg.chat.id, " Don't write here anymore , Bye")
+    bot.sendPhoto(msg.chat.id, "https://pbs.twimg.com/media/EX4tdl_WsAEJiVy.jpg", {caption: "I'm Kazakh /125"})
+    bot.sendPhoto(msg.chat.id, "https://www.google.com/imgres?imgurl=https%3A%2F%2Fsports.kz%2Fupload%2F2019-06%2F500_5cfd5ac525c05.jpg&imgrefurl=https%3A%2F%2Fwww.sports.kz%2Fnews%2Fggg-vyibil-iz-nego-dushu-kak-v-mire-otreagirovali-na-pobedu-golovkina&tbnid=oRbMl1LPDI0ywM&vet=12ahUKEwjij4rHvpbyAhXNBXcKHe36CTgQMygAegUIARCRAQ..i&docid=X_HMRvWoBnthZM&w=500&h=300&q=ggg&ved=2ahUKEwjij4rHvpbyAhXNBXcKHe36CTgQMygAegUIARCRAQ", {caption: 'this is my game /124'})
+    bot.sendPhoto(msg.chat.id, "https://i.pinimg.com/236x/8b/63/84/8b63843d4164685e44127a49b6f0ceb0.jpg", {caption: "who da fuck is this /126"})
+    bot.sendPhoto(msg.chat.id, "https://pbs.twimg.com/media/CsBMepXWgAExt22.jpg", {caption: "mama im on a tv /123"})
   }
   var status = "📦 Order Status";
   if (msg.text.indexOf(status) === 0) {
@@ -217,7 +220,17 @@ bot.onText(/\/sendpic/, (msg) => {
   });
 });
 
-
-
+bot.onText(/\/123/, (msg) => {
+  bot.sendMessage(msg.chat.id, "Your monkey is 123 years old")
+})
+bot.onText(/\/124/, (msg) => {
+  bot.sendMessage(msg.chat.id, "Your monkey is 124 years old")
+})
+bot.onText(/\/125/, (msg) => {
+  bot.sendMessage(msg.chat.id, "Your monkey is 125 years old")
+})
+bot.onText(/\/126/, (msg) => {
+  bot.sendMessage(msg.chat.id, "window is an exit")
+})
 
 
