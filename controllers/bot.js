@@ -11,7 +11,7 @@ var lastState;
 
 
 bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "<a href='neprivet.ru/'> Hello!</a> What do you want?", {
+  bot.sendMessage(msg.chat.id, "<a href='neprivet.ru/'> Hello!</a> What do you want? ^^", {
     parse_mode: "html",
     "reply_markup": // создаем кнопки
         JSON.stringify({
@@ -42,6 +42,35 @@ bot.onText(/\/start/, (msg) => {
 // ответы на кнопки
 bot.on('message', (msg) => {
   // кнопки back
+  var backMenu = "🔙 Back to menu";
+  if (msg.text.indexOf(backMenu) === 0){
+    bot.sendMessage(msg.chat.id, "What do you want?^_^", {
+      "reply_markup": // создаем кнопки
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: '📕 Catalog'
+              }],
+              [{
+                text: '🆘 Support'
+              }],
+              [{
+                text: '📦 Order Status'
+              }],
+              [{
+                text: '🛒 Abandoned Cart'
+              }],
+              [{
+                text: '😎 Loyalty Program'
+              }],
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true //кнопка пропадает после нажатия
+        })
+        
+    }); 
+  }
+
   var backCatalog = "Back to catalog";
   if (msg.text.indexOf(backCatalog) === 0){
     bot.sendMessage(msg.chat.id, "Select Collection:", {
@@ -56,6 +85,9 @@ bot.on('message', (msg) => {
               }],
               [{
                 text: '3️⃣ Third Variant'
+              }],
+              [{
+                text: '🔙 Back to menu'
               }]
           ],
           resize_keyboard: true,
@@ -78,6 +110,9 @@ bot.on('message', (msg) => {
                 }],
                 [{
                   text: '3️⃣ Third Variant'
+                }],
+                [{
+                  text: '🔙 Back to menu'
                 }]
             ],
             resize_keyboard: true,
@@ -94,15 +129,48 @@ bot.on('message', (msg) => {
   }
   var status = "📦 Order Status";
   if (msg.text.indexOf(status) === 0) {
-    bot.sendMessage(msg.chat.id, "Your ordes is ready!")
+    bot.sendMessage(msg.chat.id, "Your ordes is ready!", {
+      "reply_markup":
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: '🔙 Back to menu'
+              }]
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true
+        })
+    })
   }
   var cart = "🛒 Abandoned Cart"
   if (msg.text.indexOf(cart) === 0){
-    bot.sendMessage(msg.chat.id, "Your cart is:")
+    bot.sendMessage(msg.chat.id, "Your cart is:", {
+      "reply_markup":
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: '🔙 Back to menu'
+              }]
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true
+        })
+    })
   }
   var program = "😎 Loyalty Program";
   if (msg.text.indexOf(program) === 0){
-    bot.sendMessage(msg.chat.id, "Your discount code: https//:google.com")
+    bot.sendMessage(msg.chat.id, "Your discount code @_@ : https//:google.com", {
+      "reply_markup":
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: '🔙 Back to menu'
+              }]
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true
+        })
+    })
   }
   // Variants
   // var variant1 = "1️⃣ First Variant";
