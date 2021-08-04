@@ -11,24 +11,25 @@ var lastState;
 
 
 bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
+  bot.sendMessage(msg.chat.id, "<a href='neprivet.ru/'> Hello!</a> What do you want?", {
+    parse_mode: "html",
     "reply_markup": // создаем кнопки
         JSON.stringify({
           keyboard: [
               [{
-                text: 'Catalog'
+                text: '📕 Catalog'
               }],
               [{
-                text: 'Support'
+                text: '🆘 Support'
               }],
               [{
-                text: 'Order Status'
+                text: '📦 Order Status'
               }],
               [{
-                text: 'Abandoned Cartr'
+                text: '🛒 Abandoned Cart'
               }],
               [{
-                text: 'Loyalty Program'
+                text: '😎 Loyalty Program'
               }],
           ],
           resize_keyboard: true,
@@ -41,34 +42,6 @@ bot.onText(/\/start/, (msg) => {
 // ответы на кнопки
 bot.on('message', (msg) => {
   // кнопки back
-  var backMenu = "Back to menu"
-  if (msg.text.indexOf(backMenu) === 0) {
-    bot.sendMessage(msg.chat.id, "Hello! What do you want?", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Catalog'
-                }],
-                [{
-                  text: 'Support'
-                }],
-                [{
-                  text: 'Order Status'
-                }],
-                [{
-                  text: 'Abandoned Cartr'
-                }],
-                [{
-                  text: 'Loyalty Program'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true 
-          })
-        
-    });
-  }
   var backCatalog = "Back to catalog";
   if (msg.text.indexOf(backCatalog) === 0){
     bot.sendMessage(msg.chat.id, "Select Collection:", {
@@ -76,16 +49,13 @@ bot.on('message', (msg) => {
         JSON.stringify({
           keyboard: [
               [{
-                text: 'First Variant'
+                text: '1️⃣ First Variant'
               }],
               [{
-                text: 'Second Variant'
+                text: '2️⃣ Second Variant'
               }],
               [{
-                text: 'Third Variant'
-              }],
-              [{
-                text: 'Back to menu'
+                text: '3️⃣ Third Variant'
               }]
           ],
           resize_keyboard: true,
@@ -94,23 +64,20 @@ bot.on('message', (msg) => {
     });
   }
   // кнопки основного меню
-  var catalog = "Catalog";
+  var catalog = "📕 Catalog";
   if (msg.text.indexOf(catalog) === 0) {
       bot.sendMessage(msg.chat.id, "Select Collection:", {
         "reply_markup":
           JSON.stringify({
             keyboard: [
                 [{
-                  text: 'First Variant'
+                  text: '1️⃣ First Variant'
                 }],
                 [{
-                  text: 'Second Variant'
+                  text: '2️⃣ Second Variant'
                 }],
                 [{
-                  text: 'Third Variant'
-                }],
-                [{
-                  text: 'Back to menu'
+                  text: '3️⃣ Third Variant'
                 }]
             ],
             resize_keyboard: true,
@@ -118,118 +85,136 @@ bot.on('message', (msg) => {
           })
       });
   }
-  var support = "Support";
+  var support = "🆘 Support";
   if (msg.text.indexOf(support) === 0) {
-    bot.sendMessage(msg.chat.id, "Don't write here anymore , Bye", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back to menu'
-                }]
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-        
-    });
+    bot.sendMessage(msg.chat.id, " Don't write here anymore , Bye")
   }
-  var status = "Order Status";
+  var status = "📦 Order Status";
   if (msg.text.indexOf(status) === 0) {
-    bot.sendMessage(msg.chat.id, "Your ordes is ready!", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back to menu'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-        
-    });
+    bot.sendMessage(msg.chat.id, "Your ordes is ready!")
   }
-  var cart = "Abandoned Cart";
+  var cart = "🛒 Abandoned Cart"
   if (msg.text.indexOf(cart) === 0){
-    bot.sendMessage(msg.chat.id, "Your cart is:", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back to menu'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-        
-    })
+    bot.sendMessage(msg.chat.id, "Your cart is:")
   }
-  var program = "Loyalty Program";
+  var program = "😎 Loyalty Program";
   if (msg.text.indexOf(program) === 0){
-    bot.sendMessage(msg.chat.id, "Your discount code: https//:google.com", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-        
-    })
+    bot.sendMessage(msg.chat.id, "Your discount code: https//:google.com")
   }
   // Variants
-  var variant1 = "First Variant";
+  // var variant1 = "1️⃣ First Variant";
+  // if (msg.text.indexOf(variant1) === 0){
+  //   bot.sendMessage(msg.chat.id, "xs, s, XL", {
+  //     "reply_markup": 
+  //         JSON.stringify({
+  //           keyboard: [
+  //               [{
+  //                 text: 'Back to catalog'
+  //               }],
+  //           ],
+  //           resize_keyboard: true,
+  //           one_time_keyboard: true
+  //         })
+        
+  //   })
+  // }
+  // var variant2 = "2️⃣ Second Variant";
+  // if (msg.text.indexOf(variant2) === 0){
+  //   bot.sendMessage(msg.chat.id, "XXL, XXXXXXXL", {
+  //     "reply_markup": 
+  //         JSON.stringify({
+  //           keyboard: [
+  //               [{
+  //                 text: 'Back to catalog'
+  //               }],
+  //           ],
+  //           resize_keyboard: true,
+  //           one_time_keyboard: true
+  //         })
+        
+  //   })
+  // }
+  // var variant3 = "3️⃣ Third Variant";
+  // if (msg.text.indexOf(variant3) === 0){
+  //   bot.sendMessage(msg.chat.id, "Your size is too big for this shirt", {
+  //     "reply_markup": 
+  //         JSON.stringify({
+  //           keyboard: [
+  //               [{
+  //                 text: 'Back to catalog'
+  //               }],
+  //           ],
+  //           resize_keyboard: true,
+  //           one_time_keyboard: true
+  //         })
+  //   })
+  // }
+  var variant1 = "1️⃣ First Variant";
   if (msg.text.indexOf(variant1) === 0){
-    bot.sendMessage(msg.chat.id, "xs, s, XL", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back to catalog'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-        
-    })
+    var opts = {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Dress',
+              callback_data: 'dress'
+            },
+            {
+              text: 'Hat',
+              callback_data: 'hat'
+            },
+            {
+              text: 'backpack',
+              callback_data: 'backpack'
+            },
+            {
+              text: 'iphone',
+              callback_data: 'iphone'
+            },
+          ]
+        ]
+      }
+    };
+    bot.sendMessage(msg.from.id, 'Original Text', opts);
+    bot.on("callback_query", (callbackQuery) => {
+      const msg = callbackQuery.message;
+      bot.answerCallbackQuery(callbackQuery.id)
+      .then(() => bot.sendMessage(msg.chat.id, "You clicked!"))
+    });
   }
-  var variant2 = "Second Variant";
-  if (msg.text.indexOf(variant2) === 0){
-    bot.sendMessage(msg.chat.id, "XXL, XXXXXXXL", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back to catalog'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-        
-    })
-  }
-  var variant3 = "Third Variant";
-  if (msg.text.indexOf(variant3) === 0){
-    bot.sendMessage(msg.chat.id, "Your size is too big for this shirt", {
-      "reply_markup": 
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: 'Back to catalog'
-                }],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-    })
-  }
+});
+
+bot.onText(/\/sendpic/, (msg) => {
+  var opts = {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: 'Dress',
+            callback_data: 'dress'
+          },
+          {
+            text: 'Hat',
+            callback_data: 'hat'
+          },
+          {
+            text: 'backpack',
+            callback_data: 'backpack'
+          },
+          {
+            text: 'iphone',
+            callback_data: 'iphone'
+          },
+        ]
+      ]
+    }
+  };
+  bot.sendPhoto(msg.chat.id,"https://www.google.com/imgres?imgurl=https%3A%2F%2Fsports.kz%2Fupload%2F2019-06%2F500_5cfd5ac525c05.jpg&imgrefurl=https%3A%2F%2Fwww.sports.kz%2Fnews%2Fggg-vyibil-iz-nego-dushu-kak-v-mire-otreagirovali-na-pobedu-golovkina&tbnid=oRbMl1LPDI0ywM&vet=12ahUKEwjij4rHvpbyAhXNBXcKHe36CTgQMygAegUIARCRAQ..i&docid=X_HMRvWoBnthZM&w=500&h=300&q=ggg&ved=2ahUKEwjij4rHvpbyAhXNBXcKHe36CTgQMygAegUIARCRAQ", opts);
+  bot.on("callback_query", (callbackQuery) => {
+    const msg = callbackQuery.message;
+    bot.answerCallbackQuery(callbackQuery.id)
+    .then(() => bot.sendMessage(msg.chat.id, "You clicked!"))
+  });
 });
 
 
