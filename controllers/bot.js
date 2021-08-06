@@ -1,17 +1,44 @@
 const TelegramBot = require('node-telegram-bot-api')
 const token = '1903938146:AAG_ClwVuiXRYCG0s5MEVKTjWDmfuJwNSmw'
 const express = require('express')
+const axios = require('axios')
 const {
-  ShopifyApi,
+  shopifyApi,
 } = require('../providers/shopifyApi');
 const UserData = require('../db/models/UserData');
+const UserSettings = require('../db/models/UserSettings');
 const bot = new TelegramBot(token, { polling: true })
 const app = express();
 const mongoose = require('mongoose');
+const { getProviders } = require('../providers');
+
 
 
 const mongoDB = 'mongodb+srv://nurlan:qweQWE123@cluster0.ikiuf.mongodb.net/tgdb?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//обьявление функций
+function sendCatalog() {
+  console.log('catalog works')
+  shopifyApi.retireveCollections().then((
+    response,
+  ) => {
+    console.log('im here')
+    const collections = `Select Collection:\n${
+      response.collections.edges
+        .map((val, idx) => `${idx + 1}. ${val.node.title}`)
+        .join('\n')}\n${backToMenu}\n\n\n${typeRecomendation}`;
+    bot.sendMessage(msg.chat.id, collections)
+    UserState.updateOne(
+      {
+        chatId: msg.chat.id,
+      },
+      {
+        catalogs: response.collections.edges,
+      },
+    ).exec();
+  }).catch(errorHandler);
+}
 
 bot.onText(/\/start/, (msg) => {
   // проверяем существует ли пользователь в базе
@@ -94,6 +121,7 @@ bot.on('message', (msg) => {
 
   var backCatalog = "Back to catalog";
   if (msg.text.indexOf(backCatalog) === 0){
+    sendCatalog()
     bot.sendMessage(msg.chat.id, "Select Collection:", {
       "reply_markup":
         JSON.stringify({
@@ -119,27 +147,28 @@ bot.on('message', (msg) => {
   // кнопки основного меню
   var catalog = "📕 Catalog";
   if (msg.text.indexOf(catalog) === 0) {
-      bot.sendMessage(msg.chat.id, "Select Collection:", {
-        "reply_markup":
-          JSON.stringify({
-            keyboard: [
-                [{
-                  text: '1️⃣ First Variant'
-                }],
-                [{
-                  text: '2️⃣ Second Variant'
-                }],
-                [{
-                  text: '3️⃣ Third Variant'
-                }],
-                [{
-                  text: '🔙 Back to menu'
-                }]
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-          })
-      });
+    sendCatalog();
+    bot.sendMessage(msg.chat.id, "Select Collection:", {
+      "reply_markup":
+        JSON.stringify({
+          keyboard: [
+              [{
+                text: '1️⃣ First Variant'
+              }],
+              [{
+                text: '2️⃣ Second Variant'
+              }],
+              [{
+                text: '3️⃣ Third Variant'
+              }],
+              [{
+                text: '🔙 Back to menu'
+              }]
+          ],
+          resize_keyboard: true,
+          remove_keyboard: true
+        })
+    });
   }
   var support = "🆘 Support";
   if (msg.text.indexOf(support) === 0) {
@@ -194,74 +223,38 @@ bot.on('message', (msg) => {
     })
   }
   // Variants
-  // var variant1 = "1️⃣ First Variant";
-  // if (msg.text.indexOf(variant1) === 0){
-  //   bot.sendMessage(msg.chat.id, "xs, s, XL", {
-  //     "reply_markup": 
-  //         JSON.stringify({
-  //           keyboard: [
-  //               [{
-  //                 text: 'Back to catalog'
-  //               }],
-  //           ],
-  //           resize_keyboard: true,
-  //           one_time_keyboard: true
-  //         })
-        
-  //   })
-  // }
-  // var variant2 = "2️⃣ Second Variant";
-  // if (msg.text.indexOf(variant2) === 0){
-  //   bot.sendMessage(msg.chat.id, "XXL, XXXXXXXL", {
-  //     "reply_markup": 
-  //         JSON.stringify({
-  //           keyboard: [
-  //               [{
-  //                 text: 'Back to catalog'
-  //               }],
-  //           ],
-  //           resize_keyboard: true,
-  //           one_time_keyboard: true
-  //         })
-        
-  //   })
-  // }
-  // var variant3 = "3️⃣ Third Variant";
-  // if (msg.text.indexOf(variant3) === 0){
-  //   bot.sendMessage(msg.chat.id, "Your size is too big for this shirt", {
-  //     "reply_markup": 
-  //         JSON.stringify({
-  //           keyboard: [
-  //               [{
-  //                 text: 'Back to catalog'
-  //               }],
-  //           ],
-  //           resize_keyboard: true,
-  //           one_time_keyboard: true
-  //         })
-  //   })
-  // }
-  var variant1 = "1️⃣ First Variant";
+
+  var variant1 = "1️⃣ Variant";
   if (msg.text.indexOf(variant1) === 0){
     var opts = {
       reply_markup: {
         inline_keyboard: [
           [
             {
-              text: 'Dress',
+              text: 'Order this',
               callback_data: 'dress'
             },
+          ]
+        ]
+      }
+    };
+
+    bot.sendMessage(msg.from.id, 'Original Text', opts);
+    bot.on("callback_query", (callbackQuery) => {
+      const msg = callbackQuery.message;
+      bot.answerCallbackQuery(callbackQuery.id)
+      .then(() => bot.sendMessage(msg.chat.id, "You clicked!"))
+    });
+  }
+  var variant2 = '2️⃣ Second Variant';
+  if (msg.text.indexOf(variant2) === 0){
+    var opts = {
+      reply_markup: {
+        inline_keyboard: [
+          [
             {
-              text: 'Hat',
-              callback_data: 'hat'
-            },
-            {
-              text: 'backpack',
-              callback_data: 'backpack'
-            },
-            {
-              text: 'iphone',
-              callback_data: 'iphone'
+              text: 'Order this',
+              callback_data: 'Hat'
             },
           ]
         ]
@@ -271,7 +264,28 @@ bot.on('message', (msg) => {
     bot.on("callback_query", (callbackQuery) => {
       const msg = callbackQuery.message;
       bot.answerCallbackQuery(callbackQuery.id)
-      .then(() => bot.sendMessage(msg.chat.id, "You clicked!"))
+      .then(() => bot.sendMessage(msg.chat.id, "You clicked 2nd button!"))
+    });
+  }
+  var variant3 = '3️⃣ Third Variant';
+  if (msg.text.indexOf(variant3) === 0){
+    var opts = {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Order this',
+              callback_data: 'Shirt'
+            },
+          ]
+        ]
+      }
+    };
+    bot.sendMessage(msg.from.id, 'Original Text', opts);
+    bot.on("callback_query", (callbackQuery) => {
+      const msg = callbackQuery.message;
+      bot.answerCallbackQuery(callbackQuery.id)
+      .then(() => bot.sendMessage(msg.chat.id, "You clicked 3rd button!"))
     });
   }
 });

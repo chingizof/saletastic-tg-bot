@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev":"node ./controllers/bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +26,8 @@
     "mongoose": "^5.13.5",
     "node-telegram-bot-api": "^0.54.0",
     "nodemon": "^2.0.12",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "random-word-slugs": "^0.0.2",
+    "shopify-api-node": "^3.6.14"
   }
 }
