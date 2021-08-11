@@ -1,5 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api')
-const token = '1903938146:AAG_ClwVuiXRYCG0s5MEVKTjWDmfuJwNSmw'
+const token = '1904259926:AAHF3QR-hDQp-WedL_9jR3meADtOUVMnofY'
 const express = require('express')
 const axios = require('axios')
 const {
@@ -10,9 +10,6 @@ const UserSettings = require('../db/models/UserSettings');
 const bot = new TelegramBot(token, { polling: true })
 const app = express();
 const mongoose = require('mongoose');
-const { getProviders } = require('../providers');
-
-
 
 const mongoDB = 'mongodb+srv://nurlan:qweQWE123@cluster0.ikiuf.mongodb.net/tgdb?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -59,8 +56,7 @@ bot.onText(/\/start/, (msg) => {
     });
 
   //отправляем приветствие
-  bot.sendMessage(msg.chat.id, "<a href='neprivet.ru/'> Hello!</a> What do you want? ^^", {
-    parse_mode: "html",
+  bot.sendMessage(msg.chat.id, "Hello! What do you want? ^^", {
     "reply_markup": // создаем кнопки
         JSON.stringify({
           keyboard: [
@@ -121,7 +117,7 @@ bot.on('message', (msg) => {
 
   var backCatalog = "Back to catalog";
   if (msg.text.indexOf(backCatalog) === 0){
-    sendCatalog()
+    // sendCatalog()
     bot.sendMessage(msg.chat.id, "Select Collection:", {
       "reply_markup":
         JSON.stringify({
@@ -147,7 +143,8 @@ bot.on('message', (msg) => {
   // кнопки основного меню
   var catalog = "📕 Catalog";
   if (msg.text.indexOf(catalog) === 0) {
-    sendCatalog();
+    //sendCatalog();
+    bot.sendMessage(msg.chat.id, '░░░░░░░░░░░░░░░░░░░░ ░░░░░ЗАПУСКАЕМ░░░░░░░ ░ГУСЯ░▄▀▀▀▄░РАБОТЯГИ░░ ▄███▀░◐░░░▌░░░░░░░░░ ░░░░▌░░░░░▐░░░░░░░░░ ░░░░▐░░░░░▐░░░░░░░░░ ░░░░▌░░░░░▐▄▄░░░░░░░ ░░░░▌░░░░▄▀▒▒▀▀▀▀▄ ░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄ ░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄ ░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄ ░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄ ░░░░░░░░░░░▌▌░▌▌░░░░░ ░░░░░░░░░░░▌▌░▌▌░░░░░ ░░░░░░░░░▄▄▌▌▄▌▌░░░░░')
     bot.sendMessage(msg.chat.id, "Select Collection:", {
       "reply_markup":
         JSON.stringify({
@@ -336,4 +333,195 @@ bot.onText(/\/126/, (msg) => {
   bot.sendMessage(msg.chat.id, "window is an exit")
 })
 
+// отправление оплаты через inline
+bot.on("inline_query", (query) => {
+  var queryResults = [ ];  
+  queryResults.push({
+      type: 'article',
+      id: '0',
+      title: `Saletastic 1 month`,
+      description: `Best user experience`,
+      input_message_content: {
+          title: 'Saletastic Company 1 month subscription',
+          description: 'Best user experience',
+          payload: 'payload',
+          provider_token: '410694247:TEST:6250b730-fd82-4a39-a3cf-5a0b7869f2d1',
+          currency: 'KZT',
+          prices: [
+              {
+                  label: 'saletastic demo',
+                  amount: 30000
+              },
+              {
+                  label: 'saletastic premium',
+                  amount: 35000
+              }
+          ],
+      photo_url: 'https://i1.wp.com/useavalanche.com/wp-content/uploads/2021/01/cropped-logo_transparent.png?fit=512%2C512&ssl=1',
+      photo_width: 512,
+      photo_height: 512,
+      need_name: false,
+      need_phone_number: true,
+      need_email: false,
+      need_shipping_address: false,
+      is_flexible: false, //цена товара неизмена независим от способа доставки
+      }
+  });
+  queryResults.push({
+      type: 'article',
+      id: '1',
+      title: `Saletastic 3 month`,
+      description: `Best user experience`,
+      input_message_content: {
+          title: 'Saletastic Company 3 month subscription',
+          description: 'Best user experience',
+          payload: 'payload',
+          provider_token: '410694247:TEST:6250b730-fd82-4a39-a3cf-5a0b7869f2d1',
+          currency: 'KZT',
+          prices: [
+              {
+                  label: 'saletastic demo',
+                  amount: 80000
+              },
+              {
+                  label: 'saletastic premium',
+                  amount: 100000
+              }
+          ],
+      photo_url: 'https://i1.wp.com/useavalanche.com/wp-content/uploads/2021/01/cropped-logo_transparent.png?fit=512%2C512&ssl=1',
+      photo_width: 512,
+      photo_height: 512,
+      need_name: false,
+      need_phone_number: true,
+      need_email: false,
+      need_shipping_address: false,
+      is_flexible: false, //цена товара неизмена независим от способа доставки
+      }
+  });
+  queryResults.push({
+      type: 'article',
+      id: '2',
+      title: `Saletastic 1 year`,
+      description: `Best user experience`,
+      input_message_content: {
+          title: 'Saletastic Company 1 year subscription',
+          description: 'Best user experience',
+          payload: 'payload',
+          provider_token: '410694247:TEST:6250b730-fd82-4a39-a3cf-5a0b7869f2d1',
+          currency: 'KZT',
+          prices: [
+              {
+                  label: 'saletastic demo',
+                  amount: 300000
+              },
+              {
+                  label: 'saletastic premium',
+                  amount: 350000
+              }
+          ],
+      photo_url: 'https://i1.wp.com/useavalanche.com/wp-content/uploads/2021/01/cropped-logo_transparent.png?fit=512%2C512&ssl=1',
+      photo_width: 512,
+      photo_height: 512,
+      need_name: false,
+      need_phone_number: true,
+      need_email: false,
+      need_shipping_address: false,
+      is_flexible: false, //цена товара неизмена независим от способа доставки
+      }
+  });
+  bot.answerInlineQuery(query.id, queryResults);
+});
+
+//оплата внутри бота
+bot.onText(/\/pay/, msg => {
+  const chatID = msg.chat.id;
+  bot.sendInvoice(
+    chatID,
+    'Saletastic Company 1 month subscription',
+    'Best user experience',
+    'payload',
+    '410694247:TEST:6250b730-fd82-4a39-a3cf-5a0b7869f2d1',
+    'SOME_RANDOM_STRING_KEY',
+    'KZT',
+    [
+      {
+                label: 'saletastic demo',
+                amount: 30000
+            },
+            {
+                label: 'saletastic premium',
+                amount: 35000
+            }
+    ],
+    {
+      photo_url: 'https://i1.wp.com/useavalanche.com/wp-content/uploads/2021/01/cropped-logo_transparent.png?fit=512%2C512&ssl=1',
+      photo_width: 512,
+      photo_height: 512,
+      need_name: false,
+      need_phone_number: true,
+      need_email: false,
+      need_shipping_address: false,
+      is_flexible: false, //цена товара неизмена независим от способа доставки
+    }
+  );
+
+    bot.sendInvoice(
+    chatID,
+    'Saletastic Company 3 month subscription',
+    'Best user experience',
+    'payload',
+    '410694247:TEST:6250b730-fd82-4a39-a3cf-5a0b7869f2d1',
+    'SOME_RANDOM_STRING_KEY',
+    'KZT',
+    [
+      {
+                label: 'saletastic demo',
+                amount: 80000
+            },
+            {
+                label: 'saletastic premium',
+                amount: 100000
+            }
+    ],
+    {
+      photo_url: 'https://i1.wp.com/useavalanche.com/wp-content/uploads/2021/01/cropped-logo_transparent.png?fit=512%2C512&ssl=1',
+      photo_width: 512,
+      photo_height: 512,
+      need_name: false,
+      need_phone_number: true,
+      need_email: false,
+      need_shipping_address: false,
+      is_flexible: false, //цена товара неизмена независим от способа доставки
+    }
+  );
+    bot.sendInvoice(
+    chatID,
+    'Saletastic Company 1 year subscription',
+    'Best user experience',
+    'payload',
+    '410694247:TEST:6250b730-fd82-4a39-a3cf-5a0b7869f2d1',
+    'SOME_RANDOM_STRING_KEY',
+    'KZT',
+    [
+      {
+                label: 'saletastic demo',
+                amount: 300000
+            },
+            {
+                label: 'saletastic premium',
+                amount: 350000
+            }
+    ],
+    {
+      photo_url: 'https://i1.wp.com/useavalanche.com/wp-content/uploads/2021/01/cropped-logo_transparent.png?fit=512%2C512&ssl=1',
+      photo_width: 512,
+      photo_height: 512,
+      need_name: false,
+      need_phone_number: true,
+      need_email: false,
+      need_shipping_address: false,
+      is_flexible: false, //цена товара неизмена независим от способа доставки
+    }
+  );
+});
 
