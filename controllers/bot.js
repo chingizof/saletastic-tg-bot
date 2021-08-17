@@ -10,7 +10,7 @@ const bot = new TelegramBot(token, { polling: true })
 const app = express();
 const mongoose = require('mongoose');
 
-const mongoDB = 'mongodb+srv://nurlan:qweQWE123@cluster0.ikiuf.mongodb.net/tgdb?retryWrites=true&w=majority';
+const mongoDB = '';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const bodyParser = require("body-parser");
 const port = 5001;
