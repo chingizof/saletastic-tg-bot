@@ -2,11 +2,13 @@ const TelegramBot = require('node-telegram-bot-api')
 const token = '1903938146:AAG_ClwVuiXRYCG0s5MEVKTjWDmfuJwNSmw'
 const express = require('express')
 const path = require('path')
-const port = process.env.PORT || 8080
 const mongoose = require('mongoose');
+const bot = require('./bot')
+bot.setWebhook(url)
 
 const bot = new TelegramBot(token, { polling: true })
 const app = express()
+const url = 'https://webhook.site/15f9c25f-fb95-41d2-9bda-0940da5ec492'
 
 
 const mongoDB = 'mongodb+srv://nurlan:qweQWE123@cluster0.ikiuf.mongodb.net/tgdb?retryWrites=true&w=majority';

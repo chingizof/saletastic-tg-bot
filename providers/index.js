@@ -1,7 +1,6 @@
-const UserSetting = require('../db/models/UserSetting');
+const UserSetting = require('../db/models/UserSettings');
 const TemporarySandboxUser = require('../db/models/TemporarySandboxUser');
 const TelegramBot = require('node-telegram-bot-api')
-const bot = new TelegramBot(token, { polling: true })
 
 const { ShopifyApi } = require('./shopifyApi');
 
